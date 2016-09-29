@@ -1,4 +1,4 @@
-import os, argparse
+import argparse
 
 #edit default chances and lotto_picks to use for any combination
 chances_dflt='114,113,112,111,99,89,79,69,59,49,39,29,19,9,6,4'
@@ -14,6 +14,8 @@ parser.add_argument('--seeds', dest='seeds', type=list_of_ints,
                     help='number of balls [%(default)s]')
 parser.add_argument('--lotto-picks', dest='picks', default=lotto_picks_dflt,
                     type=int, help='number of lotto picks [%(default)s]')
+parser.add_argument('-p', dest='screen', default=False, action='store_true',
+                    help='print to screen [default print to csv]')
 
 try:
   args = parser.parse_args()
@@ -60,8 +62,20 @@ if __name__ == '__main__':
   #create a giant tree of all possible picks
   for ii in range(len(chances)):
     make_pick([ii,], lotto_picks)
+
+  headers=['seed','chance']
+  for x in range(len(chances)):
+    headers.append('p({0})'.format(x+1))
   
-  #these lines grew long quick... should probably break up but works for now
-  print('seed \tchance {0}'.format(''.join('\tp({0}) '.format(x+1) for x in range(len(chances)))))
-  print(os.linesep.join('{0} \t{1} {2}'.format(iter+1,chances[iter],''.join('\t{0:.2E} '.format(val) for val in row)) for iter,row in enumerate(probs)))
-  
+  if args.screen:
+    #these lines grew long quick... should probably break up but works for now
+    import os
+    print('\t'.join(header for header in headers))
+    print(os.linesep.join('{0} \t{1} {2}'.format(iter+1,chances[iter],''.join('\t{0:.2E} '.format(val) for val in row)) for iter,row in enumerate(probs)))
+  else:
+    import csv
+    with open('odds.csv', 'w') as fp:
+      cw = csv.writer(fp)
+      cw.writerow(headers)
+      for iter, row in enumerate(probs):
+        cw.writerow([iter+1, chances[iter]] + row)
