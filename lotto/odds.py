@@ -22,7 +22,7 @@ except Exception as e:
 
 chances=args.seeds
 chances_pct=[float(chance)/sum(chances) for chance in chances]
-lotto_picks=1
+lotto_picks=args.picks
 
 #global matrix of all probs that gets set in setprob
 probs=[[0.0 for x in range(len(chances))] for y in range(len(chances))]
