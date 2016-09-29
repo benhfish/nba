@@ -1,8 +1,8 @@
 import argparse
 
 #edit default chances and lotto_picks to use for any combination
-chances_dflt='114,113,112,111,99,89,79,69,59,49,39,29,19,9,6,4'
-lotto_picks_dflt=6
+chances_dflt='250,199,156,119,88,63,43,28,17,11,8,7,6,5'
+lotto_picks_dflt=3
 
 def list_of_ints(loi):
   return [int(i) for i in loi.split(',')]
@@ -64,7 +64,7 @@ if __name__ == '__main__':
   for ii in range(len(chances)):
     make_pick([ii,], lotto_picks)
 
-  headers=['seed','chance']
+  headers=['seed','chances']
   for x in range(len(chances)):
     headers.append('p({0})'.format(x+1))
   
