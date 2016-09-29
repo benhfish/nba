@@ -1,7 +1,26 @@
-import os
+import os, argparse
 
-#edit chances and lotto_picks to use for any combination
-chances=[114,113,112,111,99,89,79,69,59,49,39,29,19,9,6,4]
+#edit default chances and lotto_picks to use for any combination
+chances_dflt='114,113,112,111,99,89,79,69,59,49,39,29,19,9,6,4'
+lotto_picks_dflt=6
+
+def list_of_ints(loi):
+  return [int(i) for i in loi.split(',')]
+
+parser = argparse.ArgumentParser(description='Print lotto odds for given '+ \
+           'seeds and lotto picks')
+parser.add_argument('--seeds', dest='seeds', type=list_of_ints, 
+                    default=chances_dflt, 
+                    help='number of balls [%(default)s]')
+parser.add_argument('--lotto-picks', dest='picks', default=lotto_picks_dflt,
+                    type=int, help='number of lotto picks [%(default)s]')
+
+try:
+  args = parser.parse_args()
+except Exception as e:
+  print('error parsing args: {0}'.format(e))
+
+chances=args.seeds
 chances_pct=[float(chance)/sum(chances) for chance in chances]
 lotto_picks=1
 
