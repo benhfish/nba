@@ -14,7 +14,8 @@ parser.add_argument('--seeds', dest='seeds', type=list_of_ints,
                     help='number of balls [%(default)s]')
 parser.add_argument('--lotto-picks', dest='picks', default=lotto_picks_dflt,
                     type=int, help='number of lotto picks [%(default)s]')
-parser.add_argument('-p', dest='screen', default=False, action='store_true',
+parser.add_argument('-p', '--print', dest='screen', 
+                    default=False, action='store_true',
                     help='print to screen [default print to csv]')
 
 try:
